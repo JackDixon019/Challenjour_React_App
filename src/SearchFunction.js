@@ -1,7 +1,7 @@
 import UserSearch from "./UserSearch";
 import { useState } from "react";
 
-function SearchBar({ handleSubmit, handleChange }) {
+function SearchBar({ handleSubmit, handleChange, testSubmit }) {
     return (
         <form>
             <label for="nameSearch">Enter name: </label>
@@ -9,6 +9,7 @@ function SearchBar({ handleSubmit, handleChange }) {
             <button type="submit" id="nameSearchSubmit" onClick={(e) => handleSubmit(e)}>
                 Search
             </button>
+            <button type="submit" id="testSubmit" onClick={(e)=>testSubmit(e)}>Load Test Data </button>
         </form>
     );
 }
@@ -28,18 +29,22 @@ function SearchFunction() {
         e.preventDefault();
         setSearchTerm(text)
     }
+    function testSubmit(e){
+        e.preventDefault();
+        setSearchTerm('Dredgen Vale')
+    }
 
     if (searchTerm){
         return (
             <div className="SearchFunction">
-                <SearchBar handleSubmit={(e) => handleSubmit(e)} handleChange={(e) => handleChange(e)} />
+                <SearchBar handleSubmit={(e) => handleSubmit(e)} handleChange={(e) => handleChange(e)} testSubmit={(e) => testSubmit(e)} />
                 <UserSearch username={searchTerm} />
             </div>
         );
     } else {
         return (
             <div className="SearchFunction">
-                <SearchBar handleSubmit={(e) => handleSubmit(e)} handleChange={(e) => handleChange(e)} />
+                <SearchBar handleSubmit={(e) => handleSubmit(e)} handleChange={(e) => handleChange(e)} testSubmit={(e) => testSubmit(e)} />
             </div>
 
         )

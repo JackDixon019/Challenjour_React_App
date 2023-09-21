@@ -1,4 +1,6 @@
 import React from "react";
+import { useState } from "react";
+import challengeData from "./ChallengeData";
 
 // root of api calls
 const API_ROOT = "https://oc1.api.riotgames.com";
@@ -7,7 +9,7 @@ const API_ROOT = "https://oc1.api.riotgames.com";
 const SEARCH_USER = "/lol/summoner/v4/summoners/by-name/"; // {summonerName}
 
 // Delete this nephew
-const API_KEY = "?api_key=RGAPI-d8559efe-d2e4-4e20-86a3-04e6780ceadd";
+const API_KEY = "?api_key=RGAPI-9211b82e-0aa0-4a89-b86e-2a13813c9833";
 
 export default class UserSearch extends React.Component {
     constructor() {
@@ -48,6 +50,10 @@ export default class UserSearch extends React.Component {
                     userData: apiData,
                     lastSearchedName: this.props.username,
                 });
+                let userChallengeDataObject = await challengeData(
+                    apiData.puuid
+                );
+                this.setState({ userChallengeData: userChallengeDataObject });
             }
         } catch (error) {
             console.log(error.message);
@@ -67,15 +73,58 @@ export default class UserSearch extends React.Component {
     }
 
     render() {
-        // TODO: update this section to show the challenge information
-        if (this.state.userData.puuid) {
+        // Checks for both user id and that there is challenge data available
+        // then returns challenge data presented in readable form
+        if (this.state.userData.puuid && this.state.userChallengeData) {
             return (
                 <div>
                     <h1>User found: {this.state.userData.name}</h1>
+                    <ChallengeResults
+                        challengeData={this.state.userChallengeData}
+                    ></ChallengeResults>
                 </div>
             );
         } else {
             return <h1>{this.state.errorMessage}</h1>;
         }
+    }
+}
+
+function ChallengeResults(props) {
+    const [activeIndex, setActiveIndex] = useState(8);
+
+    function handleClick(index){
+        setActiveIndex(index)
+    }
+
+    return (
+        <div id="challengeResults">
+            {Array(props.challengeData.challenges.length)
+                .fill(null)
+                .map((_, i) => {
+                   return(<ChallengeBox index={i} isActive={activeIndex === i} handleClick={() => handleClick(i)} challengeData={props.challengeData} />)
+                })}
+        </div>
+    );
+}
+
+function ChallengeBox( props ) {
+    if(props.isActive){
+        return (
+            <div className="challengeBox">
+                <h3>{props.challengeData.challenges[props.index].name}</h3>
+                <h4>{props.challengeData.challenges[props.index].level}</h4>
+                <p>{props.challengeData.challenges[props.index].description}</p>
+            </div>
+        )
+    } else {
+        console.log(props.isActive)
+        return (
+            <div className="challengeBox" onClick={props.handleClick}>
+                <h3>{props.challengeData.challenges[props.index].name}</h3>
+                <h4>{props.challengeData.challenges[props.index].level}</h4>
+                {/* <button onClick={props.handleClick}> show</button> */}
+            </div>
+        )
     }
 }
