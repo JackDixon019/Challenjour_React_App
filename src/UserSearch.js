@@ -2,14 +2,9 @@ import React from "react";
 import { useState } from "react";
 import challengeData from "./ChallengeData";
 
-// root of api calls
-const API_ROOT = "https://oc1.api.riotgames.com";
-
-// returns a players names and id's (including PUUID value)
-const SEARCH_USER = "/lol/summoner/v4/summoners/by-name/"; // {summonerName}
-
-// Delete this nephew
-const API_KEY = "?api_key=RGAPI-9211b82e-0aa0-4a89-b86e-2a13813c9833";
+const API_ROOT = process.env.REACT_APP_API_ROOT
+const SEARCH_USER = process.env.REACT_APP_SEARCH_USER
+const API_KEY = process.env.REACT_APP_API_KEY
 
 export default class UserSearch extends React.Component {
     constructor() {
@@ -65,9 +60,11 @@ export default class UserSearch extends React.Component {
         }
     }
 
+    // component only loads in when search is submitted for first time
     async componentDidMount(props) {
         this.searchUser(props);
     }
+    // searches again when component updates: i.e. when searchTerm changes
     async componentDidUpdate(props) {
         this.searchUser(props);
     }
@@ -85,46 +82,58 @@ export default class UserSearch extends React.Component {
                 </div>
             );
         } else {
+            // This isn't in a catch block, because it uses the error message to display the "Searching" screen
             return <h1>{this.state.errorMessage}</h1>;
         }
     }
 }
 
 function ChallengeResults(props) {
-    const [activeIndex, setActiveIndex] = useState(8);
-
-    function handleClick(index){
-        setActiveIndex(index)
-    }
+    // babe wake up, new source of truth just dropped
+    const [activeIndex, setActiveIndex] = useState(false);
 
     return (
         <div id="challengeResults">
+            {/* Creates an empty array with the same number of elements as there are challenges  */}
             {Array(props.challengeData.challenges.length)
                 .fill(null)
+                // Maps to each element of the array, a ChallengeBox element
                 .map((_, i) => {
-                   return(<ChallengeBox index={i} isActive={activeIndex === i} handleClick={() => handleClick(i)} challengeData={props.challengeData} />)
-                })}
+                    return (
+                        <ChallengeBox
+                            index={i}
+                            // Check for whether this is the active index
+                            isActive={activeIndex === i}
+                            // Changes the activeIndex value on click --> opens challenge description
+                            handleClick={() => setActiveIndex(i)}
+                            // This is the data that will be used to populate the div
+                            challengeData={props.challengeData}
+                        />
+                    );
+                })
+            }
         </div>
     );
 }
 
-function ChallengeBox( props ) {
-    if(props.isActive){
+function ChallengeBox(props) {
+    let challenge = props.challengeData.challenges[props.index]
+
+    // Only displays the description if the index of the box matches the state of the parent element
+    if (props.isActive) {
         return (
             <div className="challengeBox">
-                <h3>{props.challengeData.challenges[props.index].name}</h3>
-                <h4>{props.challengeData.challenges[props.index].level}</h4>
-                <p>{props.challengeData.challenges[props.index].description}</p>
+                <h3>{challenge.name}</h3>
+                <h4>{challenge.level}</h4>
+                <p>{challenge.description}</p>
             </div>
-        )
+        );
     } else {
-        console.log(props.isActive)
         return (
             <div className="challengeBox" onClick={props.handleClick}>
-                <h3>{props.challengeData.challenges[props.index].name}</h3>
-                <h4>{props.challengeData.challenges[props.index].level}</h4>
-                {/* <button onClick={props.handleClick}> show</button> */}
+                <h3>{challenge.name}</h3>
+                <h4>{challenge.level}</h4>
             </div>
-        )
+        );
     }
 }
