@@ -14,7 +14,8 @@ export default function ChallengeBox(props) {
                 {challenge.nextThreshold ? (
                     <h5>Next Tier: {challenge.nextThreshold}</h5>
                 ) : (
-                    <h5>Current Percentile: {challenge.percentile * 100 + "%"}</h5>
+                    // Why on god's green earth is this the correct way to round numbers to 2 sig. figs.....
+                    <h5>Current Percentile: {Number(Math.round((challenge.percentile * 100) + 'e2') + 'e-2') + "%"}</h5>
                 )}
             </div>
         );
