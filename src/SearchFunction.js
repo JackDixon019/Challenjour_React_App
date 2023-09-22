@@ -1,20 +1,9 @@
 import UserSearch from "./UserSearch";
 import { useState } from "react";
+import SearchBar from "./SearchBar";
 
-function SearchBar({ handleSubmit, handleChange, testSubmit }) {
-    return (
-        <form>
-            <label for="nameSearch">Enter name: </label>
-            <input type="text" name="nameSearch" id="nameSearch" onChange={(e) => handleChange(e)} />
-            <button type="submit" id="nameSearchSubmit" onClick={(e) => handleSubmit(e)}>
-                Search
-            </button>
-            <button type="submit" id="testSubmit" onClick={(e)=>testSubmit(e)}>Load Test Data </button>
-        </form>
-    );
-}
 
-function SearchFunction() {
+export default function SearchFunction() {
     const [text, setText] = useState('')
     const [searchTerm, setSearchTerm] = useState('')
     
@@ -50,5 +39,3 @@ function SearchFunction() {
         )
     }
 }
-
-export default SearchFunction

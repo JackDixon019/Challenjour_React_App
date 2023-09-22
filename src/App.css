@@ -6,15 +6,85 @@ button {
   margin-left: 5px;
 }
 
-.challengeBox {
-  border: solid black 2px;
-  width: 30dvw;
-  margin-bottom: 1dvh;
-
+#challengeResults {
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  width: 65dvw;
+  /* height: 1200dvh; */
 }
 
-#challengeResults {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.challengeBox {
+  border: solid 2px;
+  width: 20dvw;
+  margin: 1dvh;
+  margin-bottom: 2dvh;
+  min-height: 17dvh;
+}
+
+.challengeBox p{
+  margin: 10px;
+}
+
+.IRON{
+  border: solid RGB(59,48,45) 2px;
+  background-color: RGB(192,165,165);
+  color: RGB(59,48,45);
+}
+
+.BRONZE{
+  border: solid RGB(85,62,68) 2px;
+  background-color: RGB(135,99,91);
+  color: RGB(235,177,149);
+}
+
+.SILVER{
+  border: solid RGB(47,51,54) 2px;
+  background-color: RGB(172,185,199);
+  color: RGB(70,79,93);
+}
+
+.GOLD{
+  border: solid #422A18 2px;
+  background-color: #C89B3C98;
+  color: #785A28;
+}
+
+.PLATINUM{
+  border: solid #0B2A30 2px;
+  background-color: #5DA7B9;
+  color: #0A3E4C;
+}
+
+.EMERALD{
+  border: solid #0D1C19 2px;
+  background-color: #055A37;
+  color: #2AA564;
+  
+}
+
+.DIAMOND{
+  border: solid #4286FF 2px;
+  background-color: #34D6EE;
+  color: #1B588A;
+}
+
+.MASTER{
+  border: solid #815270 2px;
+  background-color: #8540C0 ;
+  color: #E784FE;
+}
+
+.GRANDMASTER{
+  border: solid #45424C 2px;
+  background-color: #9C2B22 ;
+  color: #FEBA54;
+}
+
+.CHALLENGER{
+  border: solid #093D7A 2px;
+  background-color: #21719F ;
+  color: #e2be7b;
 }
