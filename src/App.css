@@ -22,9 +22,11 @@ button {
   margin: 1dvh;
   margin-bottom: 2dvh;
   min-height: 17dvh;
+  vertical-align: middle;
 }
 
-.challengeBox p{
+.challengeBox *{
+  vertical-align: middle;
   margin: 10px;
 }
 

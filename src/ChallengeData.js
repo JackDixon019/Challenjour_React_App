@@ -6,6 +6,7 @@ async function challengeData(puuid){
     // gets user's challenge data and parses to object
     let rawChallengeData = await fetch(API_ROOT + CHALLENGE_DATA + puuid + API_KEY);
     let userChallengeData = await rawChallengeData.json()
+    console.log(userChallengeData)
 
     // gets challenge config data and parses to object
     let rawMetaData = await fetch(API_ROOT + "/lol/challenges/v1/challenges/config" + API_KEY)
@@ -20,14 +21,32 @@ async function challengeData(puuid){
             switch (element.id) {
                 case challenge.challengeId:
                     challenge.name = element.localizedNames.en_AU.name
+                    if (challenge.name === "CRYSTAL"){
+                        challenge.name = "TOTAL SCORE"
+                    }
                     challenge.description = element.localizedNames.en_AU.description
                     challenge.thresholds = element.thresholds
+                    challenge.nextThreshold = nextThreshold(challenge.value, challenge.thresholds)
                     break;
                 default:
                     break;
             }
         });
     })
+
+    function nextThreshold(currentValue, thresholds){
+        let greaterValues = []
+    
+        for (const value of Object.values(thresholds)){
+            if (value > currentValue){
+                greaterValues.push(value) 
+            }
+        }
+        console.log(greaterValues)
+        return Math.min(...greaterValues)
+    }
+    
+    
     
     return userChallengeData
 };
