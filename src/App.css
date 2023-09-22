@@ -69,24 +69,24 @@ button {
 
 .DIAMOND{
   border: solid #4286FF 2px;
-  background-color: #34D6EE;
+  background-color: #97dce6;
   color: #1B588A;
 }
 
 .MASTER{
   border: solid #815270 2px;
-  background-color: #8540C0 ;
+  background-color: #8e4ba3 ;
   color: #E784FE;
 }
 
 .GRANDMASTER{
   border: solid #45424C 2px;
-  background-color: #9C2B22 ;
+  background-color: #c2524c ;
   color: #FEBA54;
 }
 
 .CHALLENGER{
   border: solid #093D7A 2px;
-  background-color: #21719F ;
+  background-color: #216e9c ;
   color: #e2be7b;
 }

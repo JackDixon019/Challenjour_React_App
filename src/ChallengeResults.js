@@ -10,7 +10,7 @@ export default function ChallengeResults(props) {
             {/* Creates an empty array with the same number of elements as there are challenges  */}
             {Array(props.challengeData.challenges.length)
                 .fill(null)
-                // Maps to each element of the array, a ChallengeBox element
+                // Maps a ChallengeBox element to each index of the array
                 .map((_, i) => {
                     return (
                         <ChallengeBox

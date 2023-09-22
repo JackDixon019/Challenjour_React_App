@@ -18,6 +18,8 @@ export default function SearchFunction() {
         e.preventDefault();
         setSearchTerm(text)
     }
+
+    // this is here because I got tired of typing lol
     function testSubmit(e){
         e.preventDefault();
         setSearchTerm('Dredgen Vale')
