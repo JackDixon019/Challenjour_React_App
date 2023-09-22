@@ -10,7 +10,7 @@ export default function ChallengeBox(props) {
                 <h4>{challenge.level}</h4>
                 <p>{challenge.description}</p>
                 <h5>Current Score: {challenge.value}</h5>
-                
+                {/* displays threshold for next tier, or current percentile if there is no next tier */}
                 {challenge.nextThreshold ? (
                     <h5>Next Tier: {challenge.nextThreshold}</h5>
                 ) : (

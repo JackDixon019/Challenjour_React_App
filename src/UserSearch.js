@@ -56,6 +56,7 @@ export default class UserSearch extends React.Component {
             this.setState({
                 lastSearchedName: this.props.username,
                 errorMessage: `Error: ${error.message}`,
+                userData: {},
             });
         }
     }
@@ -66,6 +67,7 @@ export default class UserSearch extends React.Component {
     }
     // searches again when component updates: i.e. when searchTerm changes
     async componentDidUpdate(props) {
+        console.log("updating")
         this.searchUser(props);
     }
 

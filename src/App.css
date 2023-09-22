@@ -12,8 +12,8 @@ button {
   flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   width: 65dvw;
-  /* height: 1200dvh; */
 }
 
 .challengeBox {
@@ -23,6 +23,7 @@ button {
   margin-bottom: 2dvh;
   min-height: 17dvh;
   vertical-align: middle;
+  min-width: 200px;
 }
 
 .challengeBox *{
