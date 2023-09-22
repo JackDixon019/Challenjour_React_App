@@ -3,7 +3,8 @@
 This is my first attempt at building a React app to call on RIOT's API.
 Here I'm using it to call up info on a user's challenges. 
 
-This app is not at all complete. There is almost no css, the features barely function, and it is horrifically unoptimised. 
+This app is not at all complete. 
+The features barely function, I haven't implemented filtering yet (hope you enjoy scrolling!), and I dont have a backend with which to cache info. 
 
 Anyway, have some fun!
 
