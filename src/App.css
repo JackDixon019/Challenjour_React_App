@@ -16,6 +16,33 @@ button {
   width: 65dvw;
 }
 
+#categories {
+  position: sticky;
+  top: 2dvh;
+  float: left;
+  border: solid 5px green;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  width: 10dvw;
+
+}
+
+.categoryBox {
+  border: solid 2px;
+  width: 2dvw;
+  margin: 1dvh;
+  margin-bottom: 2dvh;
+  min-height: 5dvh;
+  height: 5dvh;
+  vertical-align: middle;
+  min-width: 200px;
+}
+
+.categoryBox *{
+  margin: 1dvh;
+}
+
 .challengeBox {
   border: solid 2px;
   width: 20dvw;

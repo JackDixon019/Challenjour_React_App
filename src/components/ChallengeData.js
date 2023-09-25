@@ -52,8 +52,12 @@ async function challengeData(puuid) {
         });
     });
     // Riot calls this challenge 'CRYSTAL' because it's used to colour a crystal in the game's UI
-    // but that really means nothing here. We do a little bit of hardcoding. As a treat.
-    userChallengeData.challenges[0].name = 'TOTAL SCORE'
+    // but that really means nothing here, so we do a little bit of hardcoding. As a treat.
+    [userChallengeData.challenges[0].name, userChallengeData.challenges[0].category] = ['TOTAL SCORE', 'TOTAL SCORE']
+
+    // splits the categories off into their own lil list
+    userChallengeData.categories = userChallengeData.challenges.splice(0,6)
+
     return userChallengeData;
 }
             

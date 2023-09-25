@@ -19,6 +19,22 @@ export default class UserSearch extends React.Component {
         };
     }
 
+    async getUserData(username){
+        console.log(username)
+        let apiResponse = await fetch(
+            // combines the api root, the search user path,
+            // the username being searched, and the api key
+            API_ROOT + SEARCH_USER + username + API_KEY
+        );
+        // Throw error on 404
+        if (apiResponse.status === 404) {
+            throw Error("404: Summoner not found");
+        }
+        // converts to json
+        let apiData = await apiResponse.json();
+        return apiData
+    }
+
     // Searches for user by username
     // Sets state.userData to the API's returned data
     async searchUser(props) {
@@ -29,25 +45,17 @@ export default class UserSearch extends React.Component {
             }
             // Checks name being searched != last searched name
             if (this.props.username !== this.state.lastSearchedName) {
-                let apiResponse = await fetch(
-                    // combines the api root, the search user path,
-                    // the username being searched, and the api key
-                    API_ROOT + SEARCH_USER + this.props.username + API_KEY
-                );
-                // Throw error on 404
-                if (apiResponse.status === 404) {
-                    throw Error("404: Summoner not found");
-                }
-                // converts to json
-                let apiData = await apiResponse.json();
+                console.log(this.props.username)
+                let apiUserData = await this.getUserData(this.props.username)
                 // updates status to contain returned data
                 this.setState({
-                    userData: apiData,
+                    userData: apiUserData,
                     lastSearchedName: this.props.username,
                 });
-                let userChallengeDataObject = await challengeData(
-                    apiData.puuid
-                );
+
+                // fetches challenge data
+                let userChallengeDataObject = await challengeData(apiUserData.puuid);
+
                 this.setState({ userChallengeData: userChallengeDataObject });
             }
         } catch (error) {
