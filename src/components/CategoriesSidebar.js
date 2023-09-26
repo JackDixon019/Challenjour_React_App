@@ -9,7 +9,7 @@ export default function CategoriesSidebar(props) {
                 .fill(null)
                 // Maps a ChallengeBox element to each index of the array
                 .map((_, i) => {
-                    
+
                     let category = props.challengeData.categories[i]
 
                     return (

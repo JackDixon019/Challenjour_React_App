@@ -2,10 +2,11 @@ const API_ROOT = process.env.REACT_APP_API_ROOT;
 const API_KEY = process.env.REACT_APP_API_KEY;
 const CHALLENGE_DATA = process.env.REACT_APP_CHALLENGE_DATA;
 
-// This calculates the score a player needs to achieve to unlock the next tier of a challenge
-function nextThreshold(currentValue, thresholds) {
+// This determines the score a player needs to achieve to unlock the next tier of a challenge
+function nextThreshold(currentValue, tiers) {
     let nextValue = 0;
-    for (const threshold of Object.values(thresholds)) {
+    // tiers is an object of style {tier: threshold, tier2: threshold2}
+    for (const threshold of Object.values(tiers)) {
         if (threshold > currentValue && (threshold < nextValue || nextValue === 0)) {
             nextValue = threshold;
         }
@@ -53,7 +54,7 @@ async function challengeData(puuid) {
         "ALL CHALLENGES",
     ];
 
-    // splits the categories off into their own lil list
+    // splits the categories off into their own lil attribute
     userChallengeData.categories = userChallengeData.challenges.splice(0, 6);
 
     return userChallengeData;

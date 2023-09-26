@@ -4,6 +4,7 @@ import { useState } from "react";
 import ChallengeResults from "./ChallengeResults";
 
 export default function SearchResults(props) {
+    
     let currentScore = 0;
 
     // babe wake up, new source of truth just dropped

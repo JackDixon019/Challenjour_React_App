@@ -20,7 +20,6 @@ export default class UserSearch extends React.Component {
     }
 
     async getUserData(username) {
-        console.log(username);
         let apiResponse = await fetch(
             // combines the api root, the search user path,
             // the username being searched, and the api key
@@ -28,7 +27,7 @@ export default class UserSearch extends React.Component {
         );
         // Throw error on 404
         if (apiResponse.status === 404) {
-            throw Error("404: Summoner not found");
+            console.log("404: Summoner not found")
         }
         // converts to json
         let apiData = await apiResponse.json();

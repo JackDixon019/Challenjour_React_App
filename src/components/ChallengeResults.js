@@ -15,6 +15,7 @@ export default function ChallengeResults(props) {
                 .fill(null)
                 // Maps a ChallengeBox element to each index of the array
                 .map((_, i) => {
+                    // Just to make things more legible
                     let currentChallenge = props.challengeData.challenges[i];
 
                     return (

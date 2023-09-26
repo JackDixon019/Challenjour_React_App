@@ -7,8 +7,8 @@ button {
 }
 
 #challengeResults {
-  margin: auto;
-  margin-left: 20dvw;
+  margin: 1dvw;
+  margin-left: 10dvw;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -22,12 +22,11 @@ button {
   position: sticky;
   top: 2dvh;
   float: left;
-  border: solid 5px green;
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100dvh;
-  width: 10dvw;
-  
+  width: 20dvw;
 }
 
 #resultsPage h2{
@@ -128,13 +127,14 @@ button {
 @media screen and (max-width: 900px) {
   #categories {
     position: sticky;
-    top: 2dvh;
+    top: 0dvh;
     float:inline-start;
-    border: solid 5px green;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    height: 15dvh;
+    justify-content: center;
+    height: 23dvh;
+    min-height: 230px;
     width: 100dvw;
     background-color: #fff;
   
@@ -142,17 +142,21 @@ button {
 
   .categoryBox {
     border: solid 2px;
-    width: 2dvw;
+    width: 25dvw;
     margin: 1dvh;
     margin-bottom: 1dvh;
-    min-height: 5dvh;
     height: 5dvh;
+    min-height: 40px;
     vertical-align: middle;
-    min-width: 20dvw;
+    min-width: 100px;
   }
   
   .categoryBox *{
-    margin: 1dvh;
-    font-size: 12px;
+    margin: 5px;
+    font-size: 14px;
+  }
+
+  #categories h2{
+    width: 100dvw;
   }
 }
