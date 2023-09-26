@@ -8,6 +8,7 @@ button {
 
 #challengeResults {
   margin: auto;
+  margin-left: 20dvw;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -15,6 +16,7 @@ button {
   justify-content: center;
   width: 65dvw;
 }
+
 
 #categories {
   position: sticky;
@@ -25,14 +27,18 @@ button {
   flex-direction: column;
   height: 100dvh;
   width: 10dvw;
+  
+}
 
+#resultsPage h2{
+  margin: 10px;
 }
 
 .categoryBox {
   border: solid 2px;
   width: 2dvw;
   margin: 1dvh;
-  margin-bottom: 2dvh;
+  margin-bottom: 1dvh;
   min-height: 5dvh;
   height: 5dvh;
   vertical-align: middle;
@@ -117,4 +123,36 @@ button {
   border: solid #093D7A 2px;
   background-color: #216e9c ;
   color: #e2be7b;
+}
+
+@media screen and (max-width: 900px) {
+  #categories {
+    position: sticky;
+    top: 2dvh;
+    float:inline-start;
+    border: solid 5px green;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 15dvh;
+    width: 100dvw;
+    background-color: #fff;
+  
+  }
+
+  .categoryBox {
+    border: solid 2px;
+    width: 2dvw;
+    margin: 1dvh;
+    margin-bottom: 1dvh;
+    min-height: 5dvh;
+    height: 5dvh;
+    vertical-align: middle;
+    min-width: 20dvw;
+  }
+  
+  .categoryBox *{
+    margin: 1dvh;
+    font-size: 12px;
+  }
 }

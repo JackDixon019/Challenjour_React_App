@@ -9,25 +9,23 @@ export default function CategoriesSidebar(props) {
                 .fill(null)
                 // Maps a ChallengeBox element to each index of the array
                 .map((_, i) => {
+                    
+                    let category = props.challengeData.categories[i]
+
                     return (
                         <CategoryBox
                             // sets the index prop to the index value in the array
                             key={i}
                             // Check for whether this is the active index
                             isActive={
-                                props.activeCategory ===
-                                props.challengeData.categories[i].name
+                                props.activeCategory === category.name
                             }
                             // Changes the activeIndex value on click --> opens challenge description
                             handleClick={() => {
-                                props.handleClick(
-                                    props.challengeData.categories[i].name
-                                );
+                                props.handleClick(category.name);
                             }}
                             // This is the data that will be used to populate the div
-                            singleCategoryData={
-                                props.challengeData.categories[i]
-                            }
+                            singleCategoryData={category}
                         />
                     );
                 })}

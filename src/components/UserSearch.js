@@ -1,10 +1,10 @@
 import React from "react";
 import challengeData from "./ChallengeData";
-import ChallengeResults from "./ChallengeResults";
+import SearchResults from "./SearchResults";
 
-const API_ROOT = process.env.REACT_APP_API_ROOT
-const SEARCH_USER = process.env.REACT_APP_SEARCH_USER
-const API_KEY = process.env.REACT_APP_API_KEY
+const API_ROOT = process.env.REACT_APP_API_ROOT;
+const SEARCH_USER = process.env.REACT_APP_SEARCH_USER;
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 export default class UserSearch extends React.Component {
     constructor() {
@@ -19,8 +19,8 @@ export default class UserSearch extends React.Component {
         };
     }
 
-    async getUserData(username){
-        console.log(username)
+    async getUserData(username) {
+        console.log(username);
         let apiResponse = await fetch(
             // combines the api root, the search user path,
             // the username being searched, and the api key
@@ -32,25 +32,27 @@ export default class UserSearch extends React.Component {
         }
         // converts to json
         let apiData = await apiResponse.json();
-        return apiData
+        return apiData;
     }
 
     // Searches for user by username
     // Sets state.userData to the API's returned data
     async searchUser(props) {
         try {
+            let username = this.props.username;
+
             // If no text entered, sets to default
-            if (this.props.username === "") {
+            if (username === "") {
                 this.setState({ userData: {}, lastSearchedName: "" });
             }
             // Checks name being searched != last searched name
-            if (this.props.username !== this.state.lastSearchedName) {
-                console.log(this.props.username)
-                let apiUserData = await this.getUserData(this.props.username)
+            if (username !== this.state.lastSearchedName) {
+                let apiUserData = await this.getUserData(username);
+
                 // updates status to contain returned data
                 this.setState({
                     userData: apiUserData,
-                    lastSearchedName: this.props.username,
+                    lastSearchedName: username,
                 });
 
                 // fetches challenge data
@@ -75,7 +77,7 @@ export default class UserSearch extends React.Component {
     }
     // searches again when component updates: i.e. when searchTerm changes
     async componentDidUpdate(props) {
-        console.log("updating")
+        console.log("updating");
         this.searchUser(props);
     }
 
@@ -86,9 +88,7 @@ export default class UserSearch extends React.Component {
             return (
                 <div>
                     <h1>User found: {this.state.userData.name}</h1>
-                    <ChallengeResults
-                        challengeData={this.state.userChallengeData}
-                    ></ChallengeResults>
+                    <SearchResults challengeData={this.state.userChallengeData}></SearchResults>
                 </div>
             );
         } else {
@@ -97,5 +97,3 @@ export default class UserSearch extends React.Component {
         }
     }
 }
-
-

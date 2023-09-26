@@ -15,15 +15,11 @@ function nextThreshold(currentValue, thresholds) {
 
 async function challengeData(puuid) {
     // gets user's challenge data and parses to object
-    let rawChallengeData = await fetch(
-        API_ROOT + CHALLENGE_DATA + puuid + API_KEY
-    );
+    let rawChallengeData = await fetch(API_ROOT + CHALLENGE_DATA + puuid + API_KEY);
     let userChallengeData = await rawChallengeData.json();
 
     // gets challenge config data and parses to object
-    let rawMetaData = await fetch(
-        API_ROOT + "/lol/challenges/v1/challenges/config" + API_KEY
-    );
+    let rawMetaData = await fetch(API_ROOT + "/lol/challenges/v1/challenges/config" + API_KEY);
     let metaData = await rawMetaData.json();
 
     // This part is done because the challenge data is language agnostic, while the metadata
@@ -40,11 +36,10 @@ async function challengeData(puuid) {
                     challenge.thresholds = element.thresholds;
                     // calculates score required for next tier
                     challenge.nextThreshold = nextThreshold(challenge.value, challenge.thresholds);
-                    // the first digit of a challenge's ID declares 
+                    // the first digit of a challenge's ID declares
                     // which category each challenge falls under
-                    challenge.category = userChallengeData.challenges[
-                        challenge.challengeId.toString()[0]
-                    ].name;
+                    let categoryId = challenge.challengeId.toString()[0];
+                    challenge.category = userChallengeData.challenges[categoryId].name;
                     break;
                 default:
                     break;
@@ -53,12 +48,15 @@ async function challengeData(puuid) {
     });
     // Riot calls this challenge 'CRYSTAL' because it's used to colour a crystal in the game's UI
     // but that really means nothing here, so we do a little bit of hardcoding. As a treat.
-    [userChallengeData.challenges[0].name, userChallengeData.challenges[0].category] = ['TOTAL SCORE', 'TOTAL SCORE']
+    [userChallengeData.challenges[0].name, userChallengeData.challenges[0].category] = [
+        "ALL CHALLENGES",
+        "ALL CHALLENGES",
+    ];
 
     // splits the categories off into their own lil list
-    userChallengeData.categories = userChallengeData.challenges.splice(0,6)
+    userChallengeData.categories = userChallengeData.challenges.splice(0, 6);
 
     return userChallengeData;
 }
-            
+
 export default challengeData;
