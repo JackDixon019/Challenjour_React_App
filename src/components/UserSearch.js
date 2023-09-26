@@ -46,12 +46,15 @@ export default class UserSearch extends React.Component {
             }
             // Checks name being searched != last searched name
             if (username !== this.state.lastSearchedName) {
+                this.setState({
+                    errorMessage: `Now searching for user: ${username}`,
+                    lastSearchedName: username,
+                })
                 let apiUserData = await this.getUserData(username);
 
                 // updates status to contain returned data
                 this.setState({
                     userData: apiUserData,
-                    lastSearchedName: username,
                 });
 
                 // fetches challenge data
@@ -60,11 +63,11 @@ export default class UserSearch extends React.Component {
                 this.setState({ userChallengeData: userChallengeDataObject });
             }
         } catch (error) {
-            console.log(error.message);
+            console.log(error);
             // updates last searched name state, and error message
             this.setState({
                 lastSearchedName: this.props.username,
-                errorMessage: `Error: ${error.message}`,
+                errorMessage: `Error: ${error.message} \nPlease check the spelling and try again`,
                 userData: {},
             });
         }

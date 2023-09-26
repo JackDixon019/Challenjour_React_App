@@ -1,5 +1,13 @@
 .App {
   text-align: center;
+  background-color: rgb(39, 39, 39);
+  color: rgb(213, 222, 222);
+  height: 100dvh;
+  margin: 0;
+}
+
+html{
+  background-color: rgb(39, 39, 39);
 }
 
 button {
@@ -56,6 +64,7 @@ button {
   min-height: 17dvh;
   vertical-align: middle;
   min-width: 200px;
+  border-radius: 7px;
 }
 
 .challengeBox *{
@@ -83,8 +92,8 @@ button {
 
 .GOLD{
   border: solid #422A18 2px;
-  background-color: #C89B3C98;
-  color: #785A28;
+  background-color: #d2ae5f;
+  color: #5a431c;
 }
 
 .PLATINUM{
@@ -108,8 +117,8 @@ button {
 
 .MASTER{
   border: solid #815270 2px;
-  background-color: #8e4ba3 ;
-  color: #E784FE;
+  background-color: #a34dbd ;
+  color: #e391f6;
 }
 
 .GRANDMASTER{
@@ -136,7 +145,7 @@ button {
     height: 23dvh;
     min-height: 230px;
     width: 100dvw;
-    background-color: #fff;
+    background-color: rgb(39, 39, 39);
   
   }
 

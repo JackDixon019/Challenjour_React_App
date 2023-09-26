@@ -49,10 +49,8 @@ async function challengeData(puuid) {
     });
     // Riot calls this challenge 'CRYSTAL' because it's used to colour a crystal in the game's UI
     // but that really means nothing here, so we do a little bit of hardcoding. As a treat.
-    [userChallengeData.challenges[0].name, userChallengeData.challenges[0].category] = [
-        "ALL CHALLENGES",
-        "ALL CHALLENGES",
-    ];
+    userChallengeData.challenges[0].name = "ALL CHALLENGES";
+    userChallengeData.challenges[0].category = "ALL CHALLENGES";
 
     // splits the categories off into their own lil attribute
     userChallengeData.categories = userChallengeData.challenges.splice(0, 6);
