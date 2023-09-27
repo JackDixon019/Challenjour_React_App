@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import challengeData from "./ChallengeData";
 import SearchResults from "./SearchResults";
+import UserContext from "../context/UserContext";
 
 const API_ROOT = process.env.REACT_APP_API_ROOT;
 const SEARCH_USER = process.env.REACT_APP_SEARCH_USER;
@@ -21,8 +22,10 @@ async function getUserData(username) {
     return apiData;
 }
 
-export default function UserSearch(props) {
-    const [userData, setUserData] = useState({});
+export default function UserSearch() {
+
+    let {userData, setUserData} = useContext(UserContext)
+    // const [userData, setUserData] = useState({});
     const [lastSearchedName, setLastSearchedName] = useState(null);
     const [errorMessage, setErrorMessage] = useState("Searching");
     const [userChallengeData, setUserChallengeData] = useState(null);
@@ -35,7 +38,7 @@ export default function UserSearch(props) {
                 setLastSearchedName("");
             }
             // Checks name being searched != last searched name
-            if (username !== lastSearchedName) {
+            // if (username !== lastSearchedName) {
                 setErrorMessage(`Now searching for user: ${username}`);
                 setLastSearchedName(username);
 
@@ -46,26 +49,21 @@ export default function UserSearch(props) {
                 let challengeDataObj = await challengeData(apiUserData.puuid)
                 setUserData(apiUserData)
                 setUserChallengeData(challengeDataObj)
-            }
+            // }
         } catch (error) {
             console.log(error);
             // updates last searched name state, and error message
             setLastSearchedName(username);
             setErrorMessage(`Error: ${error.message} \nPlease check the spelling and try again`);
-            setUserData({});
         }
     }
 
     // Searches for user by username
     // Sets state.userData to the API's returned data
     useEffect(() => {
-        console.log(`username= ${props.username}`)
-        searchUser(props.username);
-    }, [props]);
-
-    if(userChallengeData){
-        console.log(userChallengeData)
-    }
+        console.log(userData.name)
+        searchUser(userData.name);
+    }, [userData.name]);
 
     // Checks for both user id and that there is challenge data available
     // then returns challenge data presented in readable form

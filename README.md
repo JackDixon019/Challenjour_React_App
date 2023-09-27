@@ -4,9 +4,12 @@ This is my first attempt at building a React app to call on RIOT's API.
 Here I'm using it to call up info on a user's challenges. 
 
 This app is not at all complete. 
-The features barely function, I haven't implemented filtering yet (hope you enjoy scrolling!), and I dont have a backend with which to cache info. 
-
 Anyway, have some fun!
+
+Known issues: 
+    - Searching a second user before first has finished loading leads to an endless loop
+    - Searching same username twice breaks the page
+    - Mobile view... 
 
 ## A note on the .env file
 You'll need to get a personal API key from riot's dev platform [here](https://developer.riotgames.com)
