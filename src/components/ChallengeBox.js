@@ -2,7 +2,6 @@ export default function ChallengeBox(props) {
     let challenge = props.singleChallengeData;
     let className = "challengeBox " + challenge.level;
 
-    // some change for git
     // Only displays the details if the index of the box matches the state of the parent element
     if (props.isActive && props.isActiveCategory) {
         return (
