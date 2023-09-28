@@ -25,8 +25,6 @@ async function getUserData(username) {
 export default function UserSearch() {
 
     let {userData, setUserData} = useContext(UserContext)
-    // const [userData, setUserData] = useState({});
-    const [lastSearchedName, setLastSearchedName] = useState(null);
     const [errorMessage, setErrorMessage] = useState("Searching");
     const [userChallengeData, setUserChallengeData] = useState(null);
 
@@ -35,35 +33,40 @@ export default function UserSearch() {
             // If no text entered, sets to default
             if (username === "") {
                 setUserData({});
-                setLastSearchedName("");
             }
-            // Checks name being searched != last searched name
-            // if (username !== lastSearchedName) {
-                setErrorMessage(`Now searching for user: ${username}`);
-                setLastSearchedName(username);
+            // displays message while waiting for response
+            setErrorMessage(`Now searching for user: ${username}`);
+            
+            // updates status to contain returned data
+            let apiUserData = await getUserData(username)
 
-                // updates status to contain returned data
-                let apiUserData = await getUserData(username)
+            // fetches challenge data
+            let challengeDataObj = await challengeData(apiUserData.puuid)
 
-                // fetches challenge data
-                let challengeDataObj = await challengeData(apiUserData.puuid)
-                setUserData(apiUserData)
-                setUserChallengeData(challengeDataObj)
-            // }
+            // updates states
+            setUserData(apiUserData)
+            setUserChallengeData(challengeDataObj)
+
         } catch (error) {
             console.log(error);
-            // updates last searched name state, and error message
-            setLastSearchedName(username);
             setErrorMessage(`Error: ${error.message} \nPlease check the spelling and try again`);
         }
     }
 
-    // Searches for user by username
-    // Sets state.userData to the API's returned data
+    // Searches for user by username whenever userData updates
     useEffect(() => {
-        console.log(userData.name)
-        searchUser(userData.name);
-    }, [userData.name]);
+        async function apiCall(){
+            console.log('calling api for: ' + userData.name)
+            searchUser(userData.name);
+        }
+
+        // prevents update loop, unless the user is searching again
+            // When user searches, userData has no puuid --> allows api call
+            // when fetch resolves, puuid is included --> No call made
+        if (!userData.puuid) {
+            apiCall()
+        }
+    }, [userData]);
 
     // Checks for both user id and that there is challenge data available
     // then returns challenge data presented in readable form

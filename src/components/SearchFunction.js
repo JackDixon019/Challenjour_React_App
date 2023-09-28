@@ -1,54 +1,28 @@
 import UserSearch from "./UserSearch";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import UserContext, { defaultUserContextData } from "../context/UserContext";
 
 export default function SearchFunction() {
-    const [text, setText] = useState("");
 
-    const [userData, setUserData] = useState(defaultUserContextData)
+    let username = useContext(UserContext).userData.name
 
-
-    // text is the value in the search bar
-    function handleChange(e) {
-        setText(e.target.value);
-    }
-
-    // Prevents refresh on submit, changes searchTerm  to text
-    // searchTerm is used to perform the search
-    function handleSubmit(e) {
-        e.preventDefault();
-        setUserData({name: text});
-    }
-
-    // this is here because I got tired of typing lol
-    function testSubmit(e) {
-        e.preventDefault();
-        setUserData({name: "Dredgen Vale"});
-    }
-
-    if (userData.name) {
+    if (username) {
         return (
-            <div className="SearchFunction">
-                <SearchBar
-                    handleSubmit={(e) => handleSubmit(e)}
-                    handleChange={(e) => handleChange(e)}
-                    testSubmit={(e) => testSubmit(e)}
-                />
-                <UserContext.Provider  value={{userData, setUserData}}>
-                    <UserSearch />
-                </UserContext.Provider>
-            </div>
+            // <UserContext.Provider  value={{userData, setUserData}}>
+                <div className="SearchFunction">
+                    <SearchBar />
+                        <UserSearch />
+                </div>
+            // </UserContext.Provider>
         );
     } else {
         return (
-            <div className="SearchFunction">
-                <SearchBar
-                    handleSubmit={(e) => handleSubmit(e)}
-                    handleChange={(e) => handleChange(e)}
-                    testSubmit={(e) => testSubmit(e)}
-                />
-            </div>
+            // <UserContext.Provider  value={{userData, setUserData}}>
+                <div className="SearchFunction">
+                    <SearchBar />
+                </div>
+            // </UserContext.Provider>
         );
     }
 }
