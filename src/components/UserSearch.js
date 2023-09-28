@@ -1,32 +1,46 @@
 import React, { useContext, useEffect, useState } from "react";
-import challengeData from "./ChallengeData";
+import getChallengeData from "./getChallengeData";
 import SearchResults from "./SearchResults";
 import UserContext from "../context/UserContext";
+import ChallengeContext from "../context/ChallengeContext";
+import ActiveCategoryContext from "../context/ActiveCategoryContext";
+import ActiveIndexContext from "../context/ActiveIndexContext";
 
 const API_ROOT = process.env.REACT_APP_API_ROOT;
 const SEARCH_USER = process.env.REACT_APP_SEARCH_USER;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
+// actually calls the api for user data
 async function getUserData(username) {
-    let apiResponse = await fetch(
-        // combines the api root, the search user path,
-        // the username being searched, and the api key
-        API_ROOT + SEARCH_USER + username + API_KEY
-    );
-    // Throw error on 404
-    if (apiResponse.status === 404) {
-        console.log("404: Summoner not found");
-    }
+    let apiResponse = await fetch(API_ROOT + SEARCH_USER + username + API_KEY);
     // converts to json
     let apiData = await apiResponse.json();
     return apiData;
 }
 
 export default function UserSearch() {
-
-    let {userData, setUserData} = useContext(UserContext)
+    let { userData, setUserData } = useContext(UserContext);
+    let { challengeData, setChallengeData } = useContext(ChallengeContext);
+    let { setActiveCategory } = useContext(ActiveCategoryContext);
+    let { setActiveIndex } = useContext(ActiveIndexContext);
     const [errorMessage, setErrorMessage] = useState("Searching");
-    const [userChallengeData, setUserChallengeData] = useState(null);
+
+    // Searches for user by username whenever userData updates
+    useEffect(() => {
+        // prevents update loop, unless the user is searching again
+        // When user searches, userData has no puuid --> allows api call
+        // when fetch resolves, puuid is included --> No call made
+        if (!userData.puuid) {
+            setActiveCategory("ALL CHALLENGES");
+            setActiveIndex(null);
+            apiCall();
+        }
+
+        async function apiCall() {
+            console.log("calling api for: " + userData.name);
+            searchUser(userData.name);
+        }
+    }, [userData]);
 
     async function searchUser(username) {
         try {
@@ -36,45 +50,28 @@ export default function UserSearch() {
             }
             // displays message while waiting for response
             setErrorMessage(`Now searching for user: ${username}`);
-            
+
             // updates status to contain returned data
-            let apiUserData = await getUserData(username)
+            let apiUserData = await getUserData(username);
 
             // fetches challenge data
-            let challengeDataObj = await challengeData(apiUserData.puuid)
+            let challengeDataObj = await getChallengeData(apiUserData.puuid);
 
             // updates states
-            setUserData(apiUserData)
-            setUserChallengeData(challengeDataObj)
-
+            setUserData(apiUserData);
+            setChallengeData(challengeDataObj);
         } catch (error) {
             console.log(error);
             setErrorMessage(`Error: ${error.message} \nPlease check the spelling and try again`);
         }
     }
-
-    // Searches for user by username whenever userData updates
-    useEffect(() => {
-        async function apiCall(){
-            console.log('calling api for: ' + userData.name)
-            searchUser(userData.name);
-        }
-
-        // prevents update loop, unless the user is searching again
-            // When user searches, userData has no puuid --> allows api call
-            // when fetch resolves, puuid is included --> No call made
-        if (!userData.puuid) {
-            apiCall()
-        }
-    }, [userData]);
-
     // Checks for both user id and that there is challenge data available
     // then returns challenge data presented in readable form
-    if (userData.puuid && userChallengeData) {
+    if (userData.puuid && challengeData) {
         return (
             <div>
                 <h1>User found: {userData.name}</h1>
-                <SearchResults challengeData={userChallengeData}></SearchResults>
+                <SearchResults></SearchResults>
             </div>
         );
     } else {

@@ -1,9 +1,9 @@
-import { createContext } from "react"
+import { createContext } from "react";
 
 export const defaultActiveIndex = {
-    activeIndex: 0
-}
+    activeIndex: null,
+};
 
 const ActiveIndexContext = createContext(defaultActiveIndex);
 
-export default ActiveIndexContext
+export default ActiveIndexContext;

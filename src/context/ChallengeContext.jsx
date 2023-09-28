@@ -4,7 +4,7 @@ export const defaultChallengeContextData = {
     achievedTime: 0,
     category: "ALL CHALLENGES",
     challengeID: 1111111,
-    description: "Some description",
+    description: "Ya Basic",
     level: "NONE",
     name: "Default Andy",
     nextThreshold: 0,
