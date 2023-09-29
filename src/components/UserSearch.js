@@ -1,101 +1,81 @@
-import React from "react";
-import challengeData from "./ChallengeData";
+import React, { useContext, useEffect, useState } from "react";
+import getChallengeData from "./getChallengeData";
 import SearchResults from "./SearchResults";
+import UserContext from "../context/UserContext";
+import ChallengeContext from "../context/ChallengeContext";
+import ActiveCategoryContext from "../context/ActiveCategoryContext";
+import ActiveIndexContext from "../context/ActiveIndexContext";
 
 const API_ROOT = process.env.REACT_APP_API_ROOT;
 const SEARCH_USER = process.env.REACT_APP_SEARCH_USER;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-export default class UserSearch extends React.Component {
-    constructor() {
-        super();
+// actually calls the api for user data
+async function getUserData(username) {
+    let apiResponse = await fetch(API_ROOT + SEARCH_USER + username + API_KEY);
+    // converts to json
+    let apiData = await apiResponse.json();
+    return apiData;
+}
 
-        this.state = {
-            userData: {},
-            // This saves from accidentally calling API
-            lastSearchedName: "",
-            // Defaults to searching, replaced when error occurs
-            errorMessage: "Searching",
-        };
-    }
+export default function UserSearch() {
+    let { userData, setUserData } = useContext(UserContext);
+    let { challengeData, setChallengeData } = useContext(ChallengeContext);
+    let { setActiveCategory } = useContext(ActiveCategoryContext);
+    let { setActiveIndex } = useContext(ActiveIndexContext);
+    const [errorMessage, setErrorMessage] = useState("Searching");
 
-    async getUserData(username) {
-        let apiResponse = await fetch(
-            // combines the api root, the search user path,
-            // the username being searched, and the api key
-            API_ROOT + SEARCH_USER + username + API_KEY
-        );
-        // Throw error on 404
-        if (apiResponse.status === 404) {
-            console.log("404: Summoner not found")
+    // Searches for user by username whenever userData updates
+    useEffect(() => {
+        // prevents update loop, unless the user is searching again
+        // When user searches, userData has no puuid --> allows api call
+        // when fetch resolves, puuid is included --> No call made
+        if (!userData.puuid) {
+            setActiveCategory("ALL CHALLENGES");
+            setActiveIndex(null);
+            apiCall();
         }
-        // converts to json
-        let apiData = await apiResponse.json();
-        return apiData;
-    }
 
-    // Searches for user by username
-    // Sets state.userData to the API's returned data
-    async searchUser(props) {
+        async function apiCall() {
+            console.log("calling api for: " + userData.name);
+            searchUser(userData.name);
+        }
+    }, [userData]);
+
+    async function searchUser(username) {
         try {
-            let username = this.props.username;
-
             // If no text entered, sets to default
             if (username === "") {
-                this.setState({ userData: {}, lastSearchedName: "" });
+                setUserData({});
             }
-            // Checks name being searched != last searched name
-            if (username !== this.state.lastSearchedName) {
-                this.setState({
-                    errorMessage: `Now searching for user: ${username}`,
-                    lastSearchedName: username,
-                })
-                let apiUserData = await this.getUserData(username);
+            // displays message while waiting for response
+            setErrorMessage(`Now searching for user: ${username}`);
 
-                // updates status to contain returned data
-                this.setState({
-                    userData: apiUserData,
-                });
+            // updates status to contain returned data
+            let apiUserData = await getUserData(username);
 
-                // fetches challenge data
-                let userChallengeDataObject = await challengeData(apiUserData.puuid);
+            // fetches challenge data
+            let challengeDataObj = await getChallengeData(apiUserData.puuid);
 
-                this.setState({ userChallengeData: userChallengeDataObject });
-            }
+            // updates states
+            setUserData(apiUserData);
+            setChallengeData(challengeDataObj);
         } catch (error) {
             console.log(error);
-            // updates last searched name state, and error message
-            this.setState({
-                lastSearchedName: this.props.username,
-                errorMessage: `Error: ${error.message} \nPlease check the spelling and try again`,
-                userData: {},
-            });
+            setErrorMessage(`Error: ${error.message} \nPlease check the spelling and try again`);
         }
     }
-
-    // component only loads in when search is submitted for first time
-    async componentDidMount(props) {
-        this.searchUser(props);
-    }
-    // searches again when component updates: i.e. when searchTerm changes
-    async componentDidUpdate(props) {
-        console.log("updating");
-        this.searchUser(props);
-    }
-
-    render() {
-        // Checks for both user id and that there is challenge data available
-        // then returns challenge data presented in readable form
-        if (this.state.userData.puuid && this.state.userChallengeData) {
-            return (
-                <div>
-                    <h1>User found: {this.state.userData.name}</h1>
-                    <SearchResults challengeData={this.state.userChallengeData}></SearchResults>
-                </div>
-            );
-        } else {
-            // This isn't in a catch block, because it uses the error message to display the "Searching" screen
-            return <h1>{this.state.errorMessage}</h1>;
-        }
+    // Checks for both user id and that there is challenge data available
+    // then returns challenge data presented in readable form
+    if (userData.puuid && challengeData) {
+        return (
+            <div>
+                <h1>User found: {userData.name}</h1>
+                <SearchResults></SearchResults>
+            </div>
+        );
+    } else {
+        // This isn't in a catch block, because it uses the error message to display the "Searching" screen
+        return <h1>{errorMessage}</h1>;
     }
 }

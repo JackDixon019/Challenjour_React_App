@@ -14,7 +14,7 @@ function nextThreshold(currentValue, tiers) {
     return nextValue;
 }
 
-async function challengeData(puuid) {
+async function getChallengeData(puuid) {
     // gets user's challenge data and parses to object
     let rawChallengeData = await fetch(API_ROOT + CHALLENGE_DATA + puuid + API_KEY);
     let userChallengeData = await rawChallengeData.json();
@@ -58,4 +58,4 @@ async function challengeData(puuid) {
     return userChallengeData;
 }
 
-export default challengeData;
+export default getChallengeData;

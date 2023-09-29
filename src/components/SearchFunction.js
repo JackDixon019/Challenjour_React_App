@@ -1,48 +1,22 @@
 import UserSearch from "./UserSearch";
-import { useState } from "react";
+import { useContext } from "react";
 import SearchBar from "./SearchBar";
+import UserContext from "../context/UserContext";
 
 export default function SearchFunction() {
-    const [text, setText] = useState("");
-    const [searchTerm, setSearchTerm] = useState("");
+    let username = useContext(UserContext).userData.name;
 
-    // text is the value in the search bar
-    function handleChange(e) {
-        setText(e.target.value);
-    }
-
-    // Prevents refresh on submit, changes searchTerm  to text
-    // searchTerm is used to perform the search
-    function handleSubmit(e) {
-        e.preventDefault();
-        setSearchTerm(text);
-    }
-
-    // this is here because I got tired of typing lol
-    function testSubmit(e) {
-        e.preventDefault();
-        setSearchTerm("Dredgen Vale");
-    }
-
-    if (searchTerm) {
+    if (username) {
         return (
             <div className="SearchFunction">
-                <SearchBar
-                    handleSubmit={(e) => handleSubmit(e)}
-                    handleChange={(e) => handleChange(e)}
-                    testSubmit={(e) => testSubmit(e)}
-                />
-                <UserSearch username={searchTerm} />
+                <SearchBar />
+                <UserSearch />
             </div>
         );
     } else {
         return (
             <div className="SearchFunction">
-                <SearchBar
-                    handleSubmit={(e) => handleSubmit(e)}
-                    handleChange={(e) => handleChange(e)}
-                    testSubmit={(e) => testSubmit(e)}
-                />
+                <SearchBar />
             </div>
         );
     }
