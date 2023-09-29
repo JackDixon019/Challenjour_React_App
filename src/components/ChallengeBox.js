@@ -7,7 +7,7 @@ export default function ChallengeBox(props) {
     let className = "challengeBox " + challenge.level;
 
     let { activeIndex, setActiveIndex } = useContext(ActiveIndexContext);
-    let activeCategory = useContext(ActiveCategoryContext).activeCategory
+    let activeCategory = useContext(ActiveCategoryContext).activeCategory;
 
     // Checks for whether a given challenge is in the currently active category
     function checkActiveCategory(currentChallenge) {
