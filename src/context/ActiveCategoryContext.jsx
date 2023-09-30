@@ -6,12 +6,12 @@ const ActiveCategoryContext = createContext(defaultActiveCategory);
 
 export default ActiveCategoryContext;
 
-export function ActiveCategoryProvider(props){
-    const [activeCategory, setActiveCategory] = useState(defaultActiveCategory)
+export function ActiveCategoryProvider(props) {
+    const [activeCategory, setActiveCategory] = useState(defaultActiveCategory);
 
-    return(
-        <ActiveCategoryContext.Provider value={{activeCategory, setActiveCategory}} >
+    return (
+        <ActiveCategoryContext.Provider value={{ activeCategory, setActiveCategory }}>
             {props.children}
         </ActiveCategoryContext.Provider>
-    )
+    );
 }

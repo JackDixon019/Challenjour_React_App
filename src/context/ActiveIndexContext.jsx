@@ -6,14 +6,13 @@ export const defaultActiveIndex = {
 
 const ActiveIndexContext = createContext(defaultActiveIndex);
 
-export function ActiveIndexProvider(props){
-
-    const [activeIndex, setActiveIndex] = useState(defaultActiveIndex)
-    return(
-        <ActiveIndexContext.Provider value={{activeIndex, setActiveIndex}} >
+export function ActiveIndexProvider(props) {
+    const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
+    return (
+        <ActiveIndexContext.Provider value={{ activeIndex, setActiveIndex }}>
             {props.children}
         </ActiveIndexContext.Provider>
-    )
-};
+    );
+}
 
-export default ActiveIndexContext
+export default ActiveIndexContext;

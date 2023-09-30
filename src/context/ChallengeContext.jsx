@@ -26,11 +26,11 @@ const ChallengeContext = createContext(defaultChallengeContextData);
 
 export default ChallengeContext;
 
-export function ChallengeProvider(props){
-    const [challengeData, setChallengeData] = useState(defaultChallengeContextData)
-    return(
-        <ChallengeContext.Provider value={{challengeData, setChallengeData}} >
+export function ChallengeProvider(props) {
+    const [challengeData, setChallengeData] = useState(defaultChallengeContextData);
+    return (
+        <ChallengeContext.Provider value={{ challengeData, setChallengeData }}>
             {props.children}
         </ChallengeContext.Provider>
-    )
+    );
 }
