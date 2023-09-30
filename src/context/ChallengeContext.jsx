@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 export const defaultChallengeContextData = {
     achievedTime: 0,
@@ -25,3 +25,12 @@ export const defaultChallengeContextData = {
 const ChallengeContext = createContext(defaultChallengeContextData);
 
 export default ChallengeContext;
+
+export function ChallengeProvider(props){
+    const [challengeData, setChallengeData] = useState(defaultChallengeContextData)
+    return(
+        <ChallengeContext.Provider value={{challengeData, setChallengeData}} >
+            {props.children}
+        </ChallengeContext.Provider>
+    )
+}
