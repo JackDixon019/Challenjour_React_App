@@ -20,7 +20,7 @@ export default function SearchBar() {
     // this is here because I got tired of typing lol
     function testSubmit(e) {
         e.preventDefault();
-        setUserData({ name: "Dredgen Vale" });
+        setUserData({ name: "TestUser" });
     }
 
     return (

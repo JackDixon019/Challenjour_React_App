@@ -54,6 +54,7 @@ async function getChallengeData(puuid) {
 
     // splits the categories off into their own lil attribute
     userChallengeData.categories = userChallengeData.challenges.splice(0, 6);
+    console.log(userChallengeData)
 
     return userChallengeData;
 }

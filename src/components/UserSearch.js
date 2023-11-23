@@ -5,6 +5,7 @@ import UserContext from "../context/UserContext";
 import ChallengeContext from "../context/ChallengeContext";
 import ActiveCategoryContext from "../context/ActiveCategoryContext";
 import ActiveIndexContext from "../context/ActiveIndexContext";
+import {dummyChallengeData, dummyUserData} from "../dummyChallengeData"
 
 const API_ROOT = process.env.REACT_APP_API_ROOT;
 const SEARCH_USER = process.env.REACT_APP_SEARCH_USER;
@@ -15,6 +16,7 @@ async function getUserData(username) {
     let apiResponse = await fetch(API_ROOT + SEARCH_USER + username + API_KEY);
     // converts to json
     let apiData = await apiResponse.json();
+    console.log(apiData)
     return apiData;
 }
 
@@ -51,11 +53,20 @@ export default function UserSearch() {
             // displays message while waiting for response
             setErrorMessage(`Now searching for user: ${username}`);
 
-            // updates status to contain returned data
-            let apiUserData = await getUserData(username);
+            let apiUserData = {}
+            let challengeDataObj = {}
 
-            // fetches challenge data
-            let challengeDataObj = await getChallengeData(apiUserData.puuid);
+            if (username === "TestUser"){
+                console.log("In testUser statement")
+                apiUserData = dummyUserData
+                challengeDataObj = dummyChallengeData
+            } else { 
+                // updates status to contain returned data
+                apiUserData = await getUserData(username);
+                
+                // fetches challenge data
+                challengeDataObj = await getChallengeData(apiUserData.puuid);
+            }
 
             // updates states
             setUserData(apiUserData);
